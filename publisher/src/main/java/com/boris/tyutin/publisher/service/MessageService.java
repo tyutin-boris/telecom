@@ -10,9 +10,9 @@ import java.util.Random;
 @Service
 public class MessageService {
 
-    private static long id = 0;
+    private static volatile long id = 0;
 
-    public static MessageDTO getMessage() {
+    public synchronized static MessageDTO getMessage() {
 
         MessageDTO messageDTO = MessageDTO.builder()
                 .id(id)
