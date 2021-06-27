@@ -2,5 +2,9 @@ package com.boris.tyutin.subscriber.model.entity;
 
 public enum Action {
     PURCHASE,
-    SUBSCRIPTION
+    SUBSCRIPTION;
+
+    public static Action getAction(String action) {
+        return action.equals(PURCHASE.name()) ? PURCHASE : SUBSCRIPTION;
+    }
 }
