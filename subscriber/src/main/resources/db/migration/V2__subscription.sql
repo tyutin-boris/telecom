@@ -3,5 +3,5 @@
         id BIGSERIAL NOT NULL,
         msisdn int8 NOT NULL,
         action VARCHAR(255) NOT NULL,
-        timestamp timestamp NOT NULL,
+        timestamp int4 NOT NULL,
         PRIMARY KEY (id));

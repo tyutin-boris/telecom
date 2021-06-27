@@ -22,20 +22,28 @@ public class MessageService {
     public void save(MessageDTO message) {
         switch (message.getAction()) {
             case PURCHASE:
-                purchaseRepository.save(Purchase.builder()
-                        .id(message.getId())
-                        .msisdn(message.getMsisdn())
-                        .action(message.getAction().name())
-                        .timestamp(message.getTimestamp()).build());
+                purchaseRepository.save(getPurchase(message));
                 break;
 
             case SUBSCRIPTION:
-                subscriptionRepository.save(Subscription.builder()
-                        .id(message.getId())
-                        .msisdn(message.getMsisdn())
-                        .action(message.getAction().name())
-                        .timestamp(message.getTimestamp()).build());
+                subscriptionRepository.save(getSubscription(message));
                 break;
         }
+    }
+
+    private Purchase getPurchase(MessageDTO message) {
+        return Purchase.builder()
+                .id(message.getId())
+                .msisdn(message.getMsisdn())
+                .action(message.getAction().name())
+                .timestamp(message.getTimestamp()).build();
+    }
+
+    private Subscription getSubscription(MessageDTO message) {
+        return Subscription.builder()
+                .id(message.getId())
+                .msisdn(message.getMsisdn())
+                .action(message.getAction().name())
+                .timestamp(message.getTimestamp()).build();
     }
 }

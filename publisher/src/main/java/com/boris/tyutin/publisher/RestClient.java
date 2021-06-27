@@ -5,35 +5,34 @@ import com.boris.tyutin.publisher.service.MessageService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @Component
 public class RestClient {
 
     private static final String URL = "http://localhost:8080/messages";
-
+    private static final int countThreads = 5;
     private static final RestTemplate restTemplate = new RestTemplate();
 
     public static void main(String[] args) {
-        List<Thread> threads = new ArrayList<>();
-        Runnable task = () -> {
+        ExecutorService executorService = Executors.newFixedThreadPool(countThreads);
+        executorService.submit(() -> {
             while (true) {
                 MessageDTO message = MessageService.getMessage();
                 sendMessage(message);
-                try {
-                    TimeUnit.SECONDS.sleep(15);
-                } catch (InterruptedException e) {
-                    throw new IllegalStateException("Task interrupted", e);
-                }
+                sleeping(15);
             }
-        };
-        for (int i = 0; i < 5; i++) {
-            threads.add(new Thread(task));
+        });
+    }
+
+    private static void sleeping(int timeout) {
+        try {
+            TimeUnit.SECONDS.sleep(timeout);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException("Task interrupted", e);
         }
-        threads.forEach(Thread::start);
     }
 
     public static void sendMessage(MessageDTO messageDTO) {

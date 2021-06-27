@@ -4,29 +4,25 @@ import com.boris.tyutin.publisher.entity.Action;
 import com.boris.tyutin.publisher.entity.MessageDTO;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class MessageService {
 
-    private static volatile long id = 0;
+    private static final AtomicLong id = new AtomicLong();
 
     public synchronized static MessageDTO getMessage() {
-
-        MessageDTO messageDTO = MessageDTO.builder()
-                .id(id)
+        return MessageDTO.builder()
+                .id(id.incrementAndGet())
                 .msisdn(getMsisdn())
                 .action(getAction())
-                .timestamp(LocalDateTime.now())
+                .timestamp((int) (System.currentTimeMillis() / 1000L))
                 .build();
-        id++;
-        return messageDTO;
     }
 
     private static Action getAction() {
-        return new Random().nextInt(2) == 0
-                ? Action.SUBSCRIPTION : Action.PURCHASE;
+        return new Random().nextBoolean() ? Action.SUBSCRIPTION : Action.PURCHASE;
     }
 
     private static int getMsisdn() {

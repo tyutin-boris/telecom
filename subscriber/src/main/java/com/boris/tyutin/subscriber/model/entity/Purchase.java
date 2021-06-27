@@ -30,5 +30,5 @@ public class Purchase {
     private String action;
 
     @Column(nullable = false)
-    private LocalDateTime timestamp;
+    private int timestamp;
 }

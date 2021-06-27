@@ -15,5 +15,5 @@ public class MessageRequest {
     private long id;
     private long msisdn;
     private String action;
-    private LocalDateTime timestamp;
+    private int timestamp;
 }

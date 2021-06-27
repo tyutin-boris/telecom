@@ -13,5 +13,5 @@ public class MessageDTO {
     private long id;
     private long msisdn;
     private Action action;
-    private LocalDateTime timestamp;
+    private int timestamp;
 }
