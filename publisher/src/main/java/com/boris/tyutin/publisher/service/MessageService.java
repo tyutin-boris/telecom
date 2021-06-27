@@ -10,9 +10,9 @@ import java.util.Random;
 @Service
 public class MessageService {
 
-    private long id = 0;
+    private static long id = 0;
 
-    public MessageDTO getMessage() {
+    public static MessageDTO getMessage() {
 
         MessageDTO messageDTO = MessageDTO.builder()
                 .id(id)
@@ -24,12 +24,12 @@ public class MessageService {
         return messageDTO;
     }
 
-    private Action getAction() {
+    private static Action getAction() {
         return new Random().nextInt(2) == 0
                 ? Action.SUBSCRIPTION : Action.PURCHASE;
     }
 
-    private int getMsisdn() {
+    private static int getMsisdn() {
         return new Random().nextInt(Integer.MAX_VALUE);
     }
 }
